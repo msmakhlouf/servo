@@ -311,57 +311,45 @@ impl HTMLElementMethods for HTMLElement {
 
     // https://html.spec.whatwg.org/multipage/#attr-itemtype
     fn Itemtypes(&self) -> Option<Vec<DOMString>> {
-        let item_attr: AttrValue = self.parse_plain_attribute(
-            &local_name!("itemtype"),
-            self.upcast::<Element>()
-                .GetAttribute(DOMString::from(String::from("itemtype")))
-                .unwrap_or(DOMString::from(String::from(""))),
-        );
+        let atoms = self.element.get_tokenlist_attribute(&local_name!("itemtype"), );
 
-        if item_attr.is_empty() {
+        if atoms.is_empty() {
             return None;
         }
 
-        let mut item_attrs = HashSet::new();
-        let vals = item_attr.split_whitespace();
-
-        vals.for_each(|f| {
-            item_attrs.insert(DOMString::from(String::from(f)));
-        });
-
-        let mut item_attr_vector: Vec<DOMString> = Vec::new();
-        for item_attr in item_attrs.drain() {
-            item_attr_vector.push(item_attr);
+        let mut item_attr_values = HashSet::new();
+        for attr_value in &atoms {
+            item_attr_values.insert(DOMString::from(String::from(attr_value.trim())));
         }
-        let opt: Option<Vec<DOMString>> = Some(item_attr_vector);
+
+        let mut item_attr_value_vector: Vec<DOMString> = Vec::new();
+        for item_attr_value in item_attr_values.drain() {
+            item_attr_value_vector.push(item_attr_value);
+        }
+
+        let opt: Option<Vec<DOMString>> = Some(item_attr_value_vector);
         return opt;
     }
 
     // https://html.spec.whatwg.org/multipage/#names:-the-itemprop-attribute
     fn PropertyNames(&self) -> Option<Vec<DOMString>> {
-        let item_attr: AttrValue = self.parse_plain_attribute(
-            &local_name!("itemprop"),
-            self.upcast::<Element>()
-                .GetAttribute(DOMString::from(String::from("itemprop")))
-                .unwrap_or(DOMString::from(String::from(""))),
-        );
+        let atoms = self.element.get_tokenlist_attribute(&local_name!("itemprop"), );
 
-        if item_attr.is_empty() {
+        if atoms.is_empty() {
             return None;
         }
 
-        let mut item_attrs = HashSet::new();
-        let vals = item_attr.split_whitespace();
-
-        vals.for_each(|f| {
-            item_attrs.insert(DOMString::from(String::from(f)));
-        });
-
-        let mut item_attr_vector: Vec<DOMString> = Vec::new();
-        for item_attr in item_attrs.drain() {
-            item_attr_vector.push(item_attr);
+        let mut item_attr_values = HashSet::new();
+        for attr_value in &atoms {
+            item_attr_values.insert(DOMString::from(String::from(attr_value.trim())));
         }
-        let opt: Option<Vec<DOMString>> = Some(item_attr_vector);
+
+        let mut item_attr_value_vector: Vec<DOMString> = Vec::new();
+        for item_attr_value in item_attr_values.drain() {
+            item_attr_value_vector.push(item_attr_value);
+        }
+
+        let opt: Option<Vec<DOMString>> = Some(item_attr_value_vector);
         return opt;
     }
 
